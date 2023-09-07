@@ -53,13 +53,6 @@ export class App extends React.Component{
         
       }
      }
-     
-    //  showBigPhoto = () =>{
-    //   const instance = basicLightbox.create(`
-    // <img src="${this.state.images.largeImageURL}" width="800" height="600">`)
-
-    //   instance.show()
-    //  }
 
      render() {
 
@@ -72,7 +65,6 @@ export class App extends React.Component{
           />
           <ImageGallery
              images={images}
-            //  bigPhoto={this.showBigPhoto}
           />
 
           <Button

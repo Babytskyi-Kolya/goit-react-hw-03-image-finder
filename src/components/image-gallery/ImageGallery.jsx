@@ -9,9 +9,7 @@ export const ImageGallery = ({images}) => {
       {images.map(img => (
          <ImageItem
             key={img.id}
-            url={img.webformatURL}
-            alt={img.tags}
-            
+            url={img.webformatURL}   
          />
       ))}
       
