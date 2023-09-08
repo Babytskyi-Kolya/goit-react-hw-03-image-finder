@@ -13,6 +13,7 @@ export class App extends React.Component{
         query: '',
         images: [],
         page: 1,
+        showModal: false,
      }
 
 
@@ -35,7 +36,7 @@ export class App extends React.Component{
       if(prevState.query !== this.state.query || prevState.page !== this.state.page){
         const item = this.state.query.split("/");
         const string = item[1];
-        await fetchImages(string)
+        await fetchImages(string, this.state.page)
         .then()
         .then(data => {
           // let hasMoreImages = nextPage < Math.ceil((images.length + 1) / 12);
