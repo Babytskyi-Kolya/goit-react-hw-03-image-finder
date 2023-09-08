@@ -1,12 +1,25 @@
+// import { render } from "@testing-library/react";
 import React from "react";
+import { createPortal } from 'react-dom';
+import { Overlay, ModalWrap } from "./Modal.styled";
 
-export const Modal = () =>{
+const modalRoot = document.querySelector('#modal-root');
 
-    return(
-        <div className="overlay">
-  <div className="modal">
-    <img src="" alt="" />
-  </div>
-</div>
+
+
+export class Modal extends React.Component{
+      
+  render() {
+
+     return createPortal(
+    <Overlay 
+    onClick={this.props.closeModal} onKeyDown={this.props.closeModal}>
+<ModalWrap>
+<img src={this.props.bigUrl} alt="CAt" />
+</ModalWrap>
+</Overlay>,
+modalRoot
     )
 }
+}
+

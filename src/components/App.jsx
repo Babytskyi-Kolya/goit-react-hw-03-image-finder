@@ -29,6 +29,20 @@ export class App extends React.Component{
      handleLoadMore = () => {
        this.setState(prevState => ({page: prevState.page + 1}))
      }
+
+     handleOpenModal = () => {
+          this.setState({
+            showModal: true,
+          })
+     }
+
+     handleCloseModal = () => {
+         this.setState({
+          showModal: false
+         })
+     }
+
+   
      
      async componentDidUpdate (prevProps, prevState) {
        
@@ -66,13 +80,21 @@ export class App extends React.Component{
           />
           <ImageGallery
              images={images}
+             openModal={this.handleOpenModal}
           />
-
-          <Button
+          {this.state.images.length > 0 &&  <Button
           onClick={this.handleLoadMore}
-          />
+          />}
 
-          <Modal/>
+
+          {/* <Modal
+           closeModal={this.handleCloseModal}
+           bigUrl={images.largeImageURL}
+          /> */}
+          {this.state.showModal && 
+          <Modal 
+          bigUrl={images.largeImageURL}
+          closeModal={this.handleCloseModal}/>}
        </Body>
 
       )
