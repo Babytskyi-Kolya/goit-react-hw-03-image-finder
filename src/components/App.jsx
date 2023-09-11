@@ -14,8 +14,11 @@ export class App extends React.Component{
         images: [],
         page: 1,
         showModal: false,
+        imageForModal: {},
+        totalHits: 0,
      }
 
+    
 
      changeQuery = (newQuery) => {
         this.setState({
@@ -30,35 +33,39 @@ export class App extends React.Component{
        this.setState(prevState => ({page: prevState.page + 1}))
      }
 
-     handleOpenModal = () => {
+     handleOpenModal = (img) => {
           this.setState({
             showModal: true,
+            imageForModal: img,
           })
      }
+     
+     
 
      handleCloseModal = () => {
          this.setState({
-          showModal: false
-         })
-     }
+          showModal: false,
+
+            });
+          };
+  
+     
 
    
      
      async componentDidUpdate (prevProps, prevState) {
        
-
       if(prevState.query !== this.state.query || prevState.page !== this.state.page){
         const item = this.state.query.split("/");
         const string = item[1];
         await fetchImages(string, this.state.page)
         .then()
         .then(data => {
-          // let hasMoreImages = nextPage < Math.ceil((images.length + 1) / 12);
-          // console.log(hasMoreImages);
           this.setState(prevState => ({
             images: [...prevState.images, ...data.hits],
             isLoading: false,
-            // hasMoreImages: hasMoreImages,
+            totalHits: data.totalHits,
+           
           }));
         })
         .catch(error => {
@@ -71,7 +78,8 @@ export class App extends React.Component{
 
      render() {
 
-      const {images} = this.state;
+      const {images, showModal, imageForModal, totalHits} = this.state;
+
 
       return(
        <Body>
@@ -81,19 +89,16 @@ export class App extends React.Component{
           <ImageGallery
              images={images}
              openModal={this.handleOpenModal}
+            
           />
-          {this.state.images.length > 0 &&  <Button
+
+          {images.length < 0 || images.length + 1 <= totalHits ? <Button
           onClick={this.handleLoadMore}
-          />}
-
-
-          {/* <Modal
-           closeModal={this.handleCloseModal}
-           bigUrl={images.largeImageURL}
-          /> */}
-          {this.state.showModal && 
+          /> : ''}
+ 
+          {showModal && 
           <Modal 
-          bigUrl={images.largeImageURL}
+          bigUrl={imageForModal}
           closeModal={this.handleCloseModal}/>}
        </Body>
 
@@ -105,19 +110,4 @@ export class App extends React.Component{
 
 
 
-  // export const App = () => {
-  //   return (
-  //     <div
-  //       style={{
-  //         height: '100vh',
-  //         display: 'flex',
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         fontSize: 40,
-  //         color: '#010101'
-  //       }}
-  //     >
-  //       React homework template
-  //     </div>
-  //   );
-  // };
+
